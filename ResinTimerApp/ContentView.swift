@@ -38,7 +38,8 @@ struct Home : View {
         ZStack {
             
            // Color(red: 231 / 255, green: 226 / 255, blue: 219 / 255).edgesIgnoringSafeArea(.all)
-             Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255).edgesIgnoringSafeArea(.all)
+            // Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255).edgesIgnoringSafeArea(.all)
+            Color(red: 229 / 255, green: 238 / 255, blue: 255 / 255).edgesIgnoringSafeArea(.all)
             
             VStack {
         
@@ -54,37 +55,25 @@ struct Home : View {
                         .trim(from: 0, to: 1)
                         .stroke(Color.indigo.opacity(0.3), style: StrokeStyle(lineWidth: 45, lineCap: .round)) // окружность его цвет и толщина
                         .frame(width: 280, height: 300)
-                        .overlay(
-                            Circle()
-                                .stroke(Color.indigo.opacity(0.2), style: StrokeStyle(lineWidth: 45, lineCap: .round))
-                             //   .frame(width: 50, height: 50)
+                        .shadow(color: Color(#colorLiteral(red: 0.7608050108, green: 0.8164883852, blue: 0.9259157777, alpha: 1)), radius: 15, x: -20, y: -20)
+                        .shadow(color: .white, radius: 20, x: 20, y: 20)
+                    
 
-                                .blur(radius: 6)
-                                .scaleEffect(animationAmount)
-                                .opacity(2 - animationAmount)
-                                .animation(
-                                    .easeInOut(duration: 1)
-                                        .repeatForever(autoreverses: false),
-                                    value: animationAmount
-                                )
-                        )
-                        .onAppear {
-                            animationAmount = 2
-                        }
+                       
 
                     Circle()
                         .trim(from: 0, to: self.to)
                         .stroke(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255), style: StrokeStyle(lineWidth: 39, lineCap: .round))
                         .frame(width: 280, height: 280)
                         .rotationEffect(.init(degrees: -90))
-                    
+                                            
                     VStack(spacing: 10) {
                         
                         Text("\(self.count / 480)")
                             .font(.custom("HYWenHei", size: 55))
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255))
-                            .shadow(radius: 4)
+                            .shadow(radius: 3)
                              
                         Button(action: {
                             self.showDetail.toggle()
@@ -92,7 +81,8 @@ struct Home : View {
                         Image("resin")
                             .resizable()
                             .frame(width: 100, height: 100)
-                            .shadow(radius: 10)
+                            .shadow(color: (Color(red: 166 / 255, green: 200 / 255, blue: 240 / 255)), radius: 8)
+                            
                             
                         }
                    
@@ -124,7 +114,7 @@ struct Home : View {
                                 .frame(width: 25, height: 25)
                                 .background(Color(red: 52 / 255, green: 60 / 255, blue: 64 / 255))
                                 .clipShape(Circle())
-                              //  .padding(.trailing)
+                                .padding(.trailing,5)
                             
                             Text(self.start ? "Pause" : "Start")
                                 .font(.custom("HYWenHei", size: 15))
@@ -134,10 +124,13 @@ struct Home : View {
                         .frame(width: 135, height: 40)
                         .background(RoundedRectangle(cornerRadius: 40))
                         .foregroundColor(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255))
-                        .padding()
+                         .padding()
+                         
                        
     
                     }
+                    .shadow(color: Color(#colorLiteral(red: 0.7608050108, green: 0.8164883852, blue: 0.9259157777, alpha: 1)), radius: 20, x: 20, y: 20)
+                    .shadow(color: .white, radius: 20, x: -20, y: -20)
                     
                     Button(action: {
                         
@@ -172,8 +165,10 @@ struct Home : View {
                         .foregroundColor(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255))
                         .padding()
                     }
+                    .shadow(color: Color(#colorLiteral(red: 0.7608050108, green: 0.8164883852, blue: 0.9259157777, alpha: 1)), radius: 20, x: 20, y: 20)
+                    .shadow(color: .white, radius: 20, x: -20, y: -20)
                 }
-                .shadow(radius: 7)
+
                 .padding()
                     
             
@@ -235,10 +230,13 @@ struct Home : View {
             
             
             DetailView(showDetail: $showDetail, countDown: $countDown, countDownFull: $countDownFull)
-                .offset(y: showDetail ? 0 : 600)
+                .offset(y: showDetail ? 300 : 600)
             
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             
+        }
+        .onTapGesture {
+            self.showDetail = false
         }
     }
 }
@@ -264,25 +262,53 @@ struct DetailView: View {
     
     var body: some View {
         
-                        VStack {
-                            Text("След. восстановление через: \(convertSecondToTime(timeInSeconds: countDown))")
-                            Text("Полное восстановление через: \(convertSecondToTime(timeInSeconds: countDownFull))")
-                            
-                            Image(systemName: "xmark")
-                             .font(.system(size: 15, weight: .bold))
-                             .foregroundColor(.yellow)
-                             .frame(width: 25, height: 25)
-                             .background(Color(red: 52 / 255, green: 60 / 255, blue: 64 / 255))
-                             .clipShape(Circle())
-                                        .onTapGesture {
-                                            self.showDetail = false
-                                        }
+        VStack(spacing: 10) {
+                            HStack {
+                            Text("След. восстановление через:  ")             .foregroundColor(Color(red: 193 / 255, green: 184 / 255, blue: 155 / 255))
+                            Text("\(convertSecondToTime(timeInSeconds: countDown))")
+                                    .foregroundColor(.white)
+                            }
+                            .font(.custom("HYWenHei", size: 15))
+                           
+                            HStack {
+                            Text("Полное восстановление через:")
+                                .foregroundColor(Color(red: 193 / 255, green: 184 / 255, blue: 155 / 255))
+                            Text("\(convertSecondToTime(timeInSeconds: countDownFull))")
+                                    .foregroundColor(.white)
+                            }
+                            .font(.custom("HYWenHei", size: 15))
+                        
+            /* HStack {
+                       Image(systemName: "xmark")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(.yellow)
+                        .frame(width: 25, height: 25)
+                        .background(Color(red: 52 / 255, green: 60 / 255, blue: 64 / 255))
+                        .clipShape(Circle())
+                        .padding(.trailing,5)
+                    
+                    Text("Close")
+                        .font(.custom("HYWenHei", size: 15))
+                        .foregroundColor(Color(red: 231 / 255, green: 226 / 255, blue: 219 / 255))
+                        .padding(.trailing)
+                    }
+                .frame(width: 135, height: 40)
+                .background(RoundedRectangle(cornerRadius: 40))
+                .foregroundColor(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255))
+                .onTapGesture {
+                    self.showDetail = false
+                }
+             */
                         }
                 .padding()
-                .frame(width: 380, height: 400)
-                .background(Color.white)
+                .frame(width: 380, height: 175)
+                .background(Color.black.opacity(0.75))
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
+                .onTapGesture {
+                    self.showDetail = false
+                }
+        
                 
             
             
