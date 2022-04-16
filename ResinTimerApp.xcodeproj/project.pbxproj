@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FB250A9280B814F00B971E0 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0FB250A8280B814F00B971E0 /* sound.mp3 */; };
 		0FCC7D832801FCE7004F4343 /* ResinTimerAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCC7D822801FCE7004F4343 /* ResinTimerAppApp.swift */; };
 		0FCC7D852801FCE7004F4343 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCC7D842801FCE7004F4343 /* ContentView.swift */; };
 		0FCC7D872801FCE7004F4343 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCC7D862801FCE7004F4343 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FB250A8280B814F00B971E0 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
 		0FCC7D7F2801FCE7004F4343 /* ResinTimerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResinTimerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FCC7D822801FCE7004F4343 /* ResinTimerAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResinTimerAppApp.swift; sourceTree = "<group>"; };
 		0FCC7D842801FCE7004F4343 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 		0FCC7D812801FCE7004F4343 /* ResinTimerApp */ = {
 			isa = PBXGroup;
 			children = (
+				0FB250A8280B814F00B971E0 /* sound.mp3 */,
 				0FCC7D922801FDAD004F4343 /* Info.plist */,
 				0FCC7D902801FD93004F4343 /* HYWenHei.ttf */,
 				0FCC7D822801FCE7004F4343 /* ResinTimerAppApp.swift */,
@@ -130,6 +133,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FB250A9280B814F00B971E0 /* sound.mp3 in Resources */,
 				0FCC7D8A2801FCE7004F4343 /* Preview Assets.xcassets in Resources */,
 				0FCC7D912801FD93004F4343 /* HYWenHei.ttf in Resources */,
 				0FCC7D872801FCE7004F4343 /* Assets.xcassets in Resources */,

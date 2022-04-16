@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
-
+import UserNotifications
+ 
 struct ContentView: View {
     var body: some View {
         
         Home(  )
-        
+
     }
 }
 
@@ -29,10 +30,10 @@ struct Home : View {
     @State var to : CGFloat = 0
     @State var count = 0
     @State var countDown = 480 // восстановление одной смолы
+    @State var twentyResinTime = 9600
     @State var countDownFull = 76800
     @State var time = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
    
-    
     var body: some View {
         
         ZStack {
@@ -94,7 +95,7 @@ struct Home : View {
                 HStack {
                     
                     Button(action: {
-                        self.start.toggle()
+                     
                         if self.count == 76800 {
                             
                             self.count = 0
@@ -103,7 +104,7 @@ struct Home : View {
                                 self.to = 0
                             }
                         }
-                       
+                        self.start.toggle()
                         
                     }) {
                         
@@ -174,7 +175,16 @@ struct Home : View {
             
         }
         
-        .onReceive(self.time) { (_) in
+            .onAppear(perform: {
+                UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert]) { _, _ in
+                }
+                
+            })
+            
+        
+            
+            
+            .onReceive(self.time) { (_) in
             
             if self.start == true {
                 
@@ -195,13 +205,13 @@ struct Home : View {
                 }
                 else {
                     
-                    withAnimation(.default) {
+                   withAnimation(.default) {
       
                         self.to = 0
                         self.count = 0
                     }
                     
-                   // self.start.toggle()
+                   
                     
                 }
                
@@ -223,7 +233,17 @@ struct Home : View {
                 } else {
                         self.countDown -= 1
                     }
+                switch count {
+                case 20:
+                    Notify(title: "Первородная смола", body: "20")
+                case 40:
+                    Notify(title: "Первородная смола", body: "40")
+                case 60:
+                    Notify(title: "Первородная смола", body: "60")
                 
+                default:
+                    break
+                }
             }
         }
         
@@ -239,8 +259,21 @@ struct Home : View {
             self.showDetail = false
         }
     }
+    func Notify(title: String, body: String) {
+        
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "sound.mp3"))
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let req = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(req, withCompletionHandler: nil)
+    }
+    
 }
-
 
 
 struct DetailView: View {
@@ -263,62 +296,33 @@ struct DetailView: View {
     var body: some View {
         
         VStack(spacing: 10) {
-                            HStack {
-                            Text("След. восстановление через:  ")             .foregroundColor(Color(red: 193 / 255, green: 184 / 255, blue: 155 / 255))
-                            Text("\(convertSecondToTime(timeInSeconds: countDown))")
-                                    .foregroundColor(.white)
-                            }
-                            .font(.custom("HYWenHei", size: 15))
-                           
-                            HStack {
-                            Text("Полное восстановление через:")
+                                VStack (alignment: .leading) {
+                                    Text("След. восстановление:")
+                                    Text("\(convertSecondToTime(timeInSeconds: countDown))")
+                                        .foregroundColor(.white)
+                                    
+                                    Text("Полное восстановление:")
+                                    Text("\(convertSecondToTime(timeInSeconds: countDownFull))")
+                                        .foregroundColor(.white)
+                                       
+                                }
                                 .foregroundColor(Color(red: 193 / 255, green: 184 / 255, blue: 155 / 255))
-                            Text("\(convertSecondToTime(timeInSeconds: countDownFull))")
-                                    .foregroundColor(.white)
+                                .font(.custom("HYWenHei", size: 17))
                             }
-                            .font(.custom("HYWenHei", size: 15))
-                        
-            /* HStack {
-                       Image(systemName: "xmark")
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundColor(.yellow)
-                        .frame(width: 25, height: 25)
-                        .background(Color(red: 52 / 255, green: 60 / 255, blue: 64 / 255))
-                        .clipShape(Circle())
-                        .padding(.trailing,5)
-                    
-                    Text("Close")
-                        .font(.custom("HYWenHei", size: 15))
-                        .foregroundColor(Color(red: 231 / 255, green: 226 / 255, blue: 219 / 255))
-                        .padding(.trailing)
-                    }
-                .frame(width: 135, height: 40)
-                .background(RoundedRectangle(cornerRadius: 40))
-                .foregroundColor(Color(red: 74 / 255, green: 83 / 255, blue: 106 / 255))
-                .onTapGesture {
-                    self.showDetail = false
-                }
-             */
+                            
+                            .padding()
+                            .frame(width: 300, height: 130)
+                            .background(Color.black.opacity(0.75))
+                            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
+                            .onTapGesture {
+                                self.showDetail = false
+                            }
                         }
-                .padding()
-                .frame(width: 380, height: 175)
-                .background(Color.black.opacity(0.75))
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
-                .onTapGesture {
-                    self.showDetail = false
-                }
-        
-                
-            
-            
-            
-            
-                    
-                
-            
-        
+               
     }
-}
+
 
 // .trailing отступ справа
+
+
